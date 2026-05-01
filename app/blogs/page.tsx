@@ -56,7 +56,7 @@ const Blogs = async ({
                     </p>
                 </div>
                 <Link
-                    href="/new"
+                    href="/blogs/new"
                     className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-lg shadow-sm transition-all hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900"
                 >
                     + Add New Blog
