@@ -1,5 +1,5 @@
 "use client";
-import { createBlog } from "@/app/actions/blogs";
+import { createBlog } from "@/app/actions/blogsAction";
 
 const NewBlog = () => {
     return (

@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
-import { getBlogByID } from "@/app/services/blogs";
+import { getBlogByID } from "@/services/blogsService";
 import Link from "next/link";
-import { likeBlog } from "@/app/actions/blogs";
+import { likeBlog } from "@/app/actions/blogsAction";
 
 const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params;
-    const blog = getBlogByID(id);
+    const blog = await getBlogByID(Number(id));
     if (!blog) {
         notFound();
     }
@@ -36,7 +36,7 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
                             action={likeBlog}
                             className="flex items-center gap-1"
                         >
-                            <input type="hidden" name="id" value={blog._id} />
+                            <input type="hidden" name="id" value={blog.id} />
                             <button
                                 type="submit"
                                 className="flex items-center gap-1 text-xs font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/50 px-2 py-1 rounded-lg transition-colors cursor-pointer"

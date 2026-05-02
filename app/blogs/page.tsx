@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getBlogs } from "../services/blogs";
+import { getBlogs } from "../../services/blogsService";
 import { type Blog } from "@/types";
 
 const Blogs = async ({
@@ -9,7 +9,7 @@ const Blogs = async ({
 }) => {
     const { sort, search } = await searchParams;
 
-    const blogs: Blog[] = getBlogs();
+    const blogs: Blog[] = await getBlogs();
     const searchTerm = search?.toLowerCase().trim() || "";
 
     // 1️⃣ FILTER first
@@ -115,12 +115,12 @@ const Blogs = async ({
                 {sortedBlogs.length > 0 ? (
                     sortedBlogs.map((blog) => (
                         <article
-                            key={blog._id}
+                            key={blog.id}
                             className="group flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
                         >
                             <div className="flex-1">
                                 <Link
-                                    href={`/blogs/${blog._id}`}
+                                    href={`/blogs/${blog.id}`}
                                     className="text-xl font-semibold text-zinc-900 dark:text-zinc-50 mb-2 line-clamp-2 block hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
                                 >
                                     {blog.title}
