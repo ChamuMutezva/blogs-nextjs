@@ -8,6 +8,13 @@
       "when": 1777698408337,
       "tag": "0000_cool_alice",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1777718042348,
+      "tag": "0001_fresh_famine",
+      "breakpoints": true
     }
   ]
 }

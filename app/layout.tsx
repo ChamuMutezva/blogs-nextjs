@@ -1,10 +1,11 @@
 import "./globals.css";
 import Link from "next/link";
+import { Rss } from "lucide-react";
 import type { ReactNode } from "react";
 
 export const metadata = {
     title: "My Blog App",
-    description: "A beautifully styled Next.js blog",
+    description: "A list of my favorite blogs",
 };
 
 export default function RootLayout({
@@ -18,9 +19,10 @@ export default function RootLayout({
                         <div className="flex h-16 items-center justify-between">
                             <Link
                                 href="/"
-                                className="text-xl font-bold tracking-tight hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
+                                className="flex items-center gap-2 text-xl font-bold tracking-tight hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
                             >
-                                📝 BlogSpace
+                                <Rss aria-hidden="true" />
+                                <span>BlogSpace</span>
                             </Link>
                             <div className="flex gap-6">
                                 <Link
