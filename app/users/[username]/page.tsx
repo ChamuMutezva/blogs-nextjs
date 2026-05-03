@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getUserWithBlogs } from "@/services/usersService";
-const User = async ({ params }: { params: Promise<{ id: string }> }) => {
-    const { id } = await params;
+import { getUserWithBlogsByUsername } from "@/services/usersService";
+const User = async ({ params }: { params: Promise<{ username: string }> }) => {
+    const { username } = await params;
 
-    const userBlogs = await getUserWithBlogs(Number(id));
+    const userBlogs = await getUserWithBlogsByUsername(username);
 
     if (!userBlogs) {
         notFound();
@@ -34,7 +34,8 @@ const User = async ({ params }: { params: Promise<{ id: string }> }) => {
                         </p>
                         <p className="mt-2 text-sm text-zinc-400 dark:text-zinc-500">
                             {userBlogs.blogs.length}{" "}
-                            {userBlogs.blogs.length === 1 ? "blog" : "blogs"} published
+                            {userBlogs.blogs.length === 1 ? "blog" : "blogs"}{" "}
+                            published
                         </p>
                     </div>
                 </div>

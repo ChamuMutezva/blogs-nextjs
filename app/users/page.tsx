@@ -51,7 +51,7 @@ const Users = async () => {
                             {/* Footer Action */}
                             <div className="mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
                                 <Link
-                                    href={`/users/${user.id}`}
+                                    href={`/users/${user.username}`}
                                     className="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
                                 >
                                     View profile{" "}
