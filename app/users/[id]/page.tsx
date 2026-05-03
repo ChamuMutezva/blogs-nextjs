@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getBlogsByUserId, getUserById } from "@/services/usersService";
+import { getUserWithBlogs } from "@/services/usersService";
 const User = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params;
-    const user = await getUserById(Number(id));
-    const blogs = await getBlogsByUserId(Number(id));
 
-    if (!user || !blogs) {
+    const userBlogs = await getUserWithBlogs(Number(id));
+
+    if (!userBlogs) {
         notFound();
     }
-    console.log(blogs);
+    console.log(userBlogs);
     return (
         <div className="space-y-8">
             {/* 👤 User Profile Header */}
@@ -23,18 +23,18 @@ const User = async ({ params }: { params: Promise<{ id: string }> }) => {
 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
                     <div className="h-20 w-20 shrink-0 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white font-bold text-3xl shadow-inner">
-                        {user.name.charAt(0).toUpperCase()}
+                        {userBlogs.name.charAt(0).toUpperCase()}
                     </div>
                     <div>
                         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-                            {user.name}
+                            {userBlogs.name}
                         </h1>
                         <p className="text-lg text-zinc-500 dark:text-zinc-400">
-                            @{user.username}
+                            @{userBlogs.username}
                         </p>
                         <p className="mt-2 text-sm text-zinc-400 dark:text-zinc-500">
-                            {blogs.length}{" "}
-                            {blogs.length === 1 ? "blog" : "blogs"} published
+                            {userBlogs.blogs.length}{" "}
+                            {userBlogs.blogs.length === 1 ? "blog" : "blogs"} published
                         </p>
                     </div>
                 </div>
@@ -42,12 +42,12 @@ const User = async ({ params }: { params: Promise<{ id: string }> }) => {
             {/* 📝 User's Blogs Grid */}
             <section>
                 <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 mb-6">
-                    Articles by {user.name}
+                    Articles by {userBlogs.name}
                 </h2>
 
-                {blogs.length > 0 ? (
+                {userBlogs.blogs.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {blogs.map((blog) => (
+                        {userBlogs.blogs.map((blog) => (
                             <article
                                 key={blog.id}
                                 className="group flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300"
@@ -90,7 +90,7 @@ const User = async ({ params }: { params: Promise<{ id: string }> }) => {
                             No blogs published yet
                         </p>
                         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-                            {user.name} hasn&apos;t written any articles.
+                            {userBlogs.name} hasn&apos;t written any articles.
                         </p>
                     </div>
                 )}
