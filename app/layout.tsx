@@ -37,6 +37,12 @@ export default function RootLayout({
                                 >
                                     My Blogs
                                 </Link>
+                                <Link
+                                    href="/users"
+                                    className="text-sm font-medium hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors"
+                                >
+                                    Users
+                                </Link>
                             </div>
                         </div>
                     </div>

@@ -8,13 +8,18 @@ export async function createBlog(formData: FormData) {
   const author = formData.get("author") as string;
   const url = formData.get("url") as string;
 
+  // Extract userId from the form. 
+  // ⚠️ Make sure your form has a hidden input for userId, or this will default to 1
+  const userIdStr = formData.get("userId");
+  const userId = userIdStr ? Number.parseInt(userIdStr as string) : 1;
+
   // Validation
   if (!title?.trim() || !author?.trim() || !url?.trim()) {
     throw new Error("All fields are required");
   }
 
   // ✅ Call service - NO db.insert() here!
-  await addBlog({ title, author, url });
+  await addBlog({ title, author, url , userId});
 
   // Side effects
   revalidatePath("/blogs");

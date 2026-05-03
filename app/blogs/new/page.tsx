@@ -10,6 +10,7 @@ const NewBlog = () => {
                 </h2>
 
                 <form className="space-y-5" action={createBlog}>
+                    <input type="hidden" name="userId" value="1" />
                     <div>
                         <label
                             htmlFor="title"

@@ -15,6 +15,13 @@
       "when": 1777718042348,
       "tag": "0001_fresh_famine",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777794153201,
+      "tag": "0002_cuddly_magus",
+      "breakpoints": true
     }
   ]
 }

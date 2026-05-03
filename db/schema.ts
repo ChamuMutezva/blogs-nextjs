@@ -7,7 +7,7 @@ export const blogs = pgTable("blogs", {
     url: text("url").notNull(),
     likes: integer("likes").notNull().default(0),
 
-    userId: integer("user_id").references(() => users.id)
+    userId: integer("user_id").notNull().references(() => users.id)
 });
 
 // ✅ Export type for inserts (excludes `id` and uses optional `likes`)
@@ -19,3 +19,5 @@ export const users = pgTable("users", {
     username: text("username").notNull().unique(),
     name: text("name").notNull(),
 })
+
+export type User = typeof users.$inferSelect

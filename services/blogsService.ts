@@ -2,16 +2,20 @@ import { eq, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { blogs, NewBlog } from "@/db/schema";
 
+// ✅ Return full list of blogs
 export const getBlogs = async () => {
     return db.query.blogs.findMany();
 };
 
+// ✅ Return single blog by ID
 export const getBlogByID = async (id: number) => {
     return db.query.blogs.findFirst({
         where: eq(blogs.id, id),
     });
 };
 
+// ✅ Insert new blog
+// The 'data' parameter is typed as 'NewBlog' which now includes 'userId'
 export const addBlog = async (data: NewBlog) => {
     const [newBlog] = await db
         .insert(blogs)
