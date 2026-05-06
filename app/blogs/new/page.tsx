@@ -21,7 +21,7 @@ export default function NewBlog() {
 
         <form action={formAction} className="space-y-5">
           {/* Hidden userId (adjust as needed) */}
-          <input type="hidden" name="userId" value="1" />
+          <input type="hidden" name="userId" value="1" defaultValue={state?.fields?.userId} />
 
           <div>
             <label htmlFor="title" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1.5">
