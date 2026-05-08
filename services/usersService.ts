@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { blogs, users } from "@/db/schema";
+import bcrypt from "bcryptjs";
 
 // ✅ Return full list of users
 export const getUsers = async () => {
@@ -10,14 +11,14 @@ export const getUsers = async () => {
 // ✅ Return single user by ID
 export const getUserById = async (id: number) => {
     return db.query.users.findFirst({
-        where: eq(users.id, id)
+        where: eq(users.id, id),
     });
 };
 
 // ✅ Return single user by username
 export const getUserByUsername = async (username: string) => {
     return db.query.users.findFirst({
-        where: eq(users.username, username)
+        where: eq(users.username, username),
     });
 };
 
@@ -36,7 +37,7 @@ export const getUserWithBlogsByUsername = async (username: string) => {
             blogs: true,
         },
     });
-}
+};
 
 export const getUserWithBlogs = async (userId: number) => {
     return db.query.users.findFirst({
@@ -45,4 +46,34 @@ export const getUserWithBlogs = async (userId: number) => {
             blogs: true,
         },
     });
-}
+};
+
+export const registerUser = async ({
+    username,
+    name,
+    password,
+}: {
+    username: string;
+    name: string;
+    password: string;
+}) => {
+    // 1️⃣ Check for existing username
+    const existing = await db
+        .select()
+        .from(users)
+        .where(eq(users.username, username));
+    if (existing.length > 0) {
+        throw new Error("Username already exists");
+    }
+
+    // 2️⃣ Hash password securely
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // 3️⃣ Insert user & return created record
+    const [newUser] = await db
+        .insert(users)
+        .values({ username, name, passwordHash: hashedPassword })
+        .returning();
+
+    return newUser;
+};
