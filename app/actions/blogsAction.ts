@@ -7,6 +7,7 @@ import { auth } from "@/auth";
 // Define the shape of the form state
 export type FormState = {
     error?: string;
+    success?: boolean;
     fields?: { title: string; author: string; url: string; userId: string };
 } | null;
 
@@ -29,6 +30,7 @@ export async function createBlog(
     if (!title?.trim() || !author?.trim() || !url?.trim()) {
         return {
             error: "All fields are required",
+            success: false,
             fields: { title, author, url, userId }, // ✅ Return values to preserve
         };
     }
@@ -37,6 +39,7 @@ export async function createBlog(
         // Example of a server-side validation error
         return {
             error: "Title must be 5 characters or less",
+            success: false,
             fields: { title, author, url, userId }, // ✅ Preserve user input on validation error
         };
     }
@@ -45,6 +48,7 @@ export async function createBlog(
         // Example of a server-side validation error
         return {
             error: "Author must be 5 characters or less",
+            success: false,
             fields: { title, author, url, userId }, // ✅ Preserve user input on validation error
         };
     }
@@ -52,6 +56,7 @@ export async function createBlog(
         // Example of a server-side validation error
         return {
             error: "Url must be 5 characters or less",
+            success: false,
             fields: { title, author, url, userId }, // ✅ Preserve user input on validation error
         };
     }
@@ -66,12 +71,17 @@ export async function createBlog(
     } catch (error) {
         return {
             error: `Failed to create blog: ${error instanceof Error ? error.message : "Unknown error"}`,
+            success: false,
             fields: { title, author, url, userId }, // ✅ Preserve on DB error too
         };
     }
     // Side effects
     revalidatePath("/blogs");
-    redirect("/blogs");
+    return {
+        error: "",
+        success: true,
+        fields: { title, author, url, userId },
+    };
 }
 
 export async function likeBlog(formData: FormData) {

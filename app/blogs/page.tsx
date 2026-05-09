@@ -163,7 +163,7 @@ const Blogs = async ({
                         </p>
                         <Link
                             href={buildUrl({
-                                search: undefined,
+                                search: "",
                                 sort: undefined,
                             })}
                             className="mt-2 inline-block text-blue-600 dark:text-blue-400 hover:underline"
