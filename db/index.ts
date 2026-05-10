@@ -13,4 +13,4 @@ if (!DATABASE_URL) {
 const sql = neon(DATABASE_URL);
 
 // 👇 Pass `{ schema }` here to enable `db.query`
-export const db = drizzle(process.env.DATABASE_URL!, { schema, logger: true });
+export const db = drizzle(sql, { schema, logger: true });

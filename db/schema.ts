@@ -1,4 +1,4 @@
-import { pgTable, serial, text, integer } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, integer, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
 export const blogs = pgTable("blogs", {
@@ -8,7 +8,9 @@ export const blogs = pgTable("blogs", {
     url: text("url").notNull(),
     likes: integer("likes").notNull().default(0),
 
-    userId: integer("user_id").notNull().references(() => users.id)
+    userId: integer("user_id")
+        .notNull()
+        .references(() => users.id),
 });
 
 // ✅ Export type for inserts (excludes `id` and uses optional `likes`)
@@ -20,17 +22,21 @@ export const users = pgTable("users", {
     username: text("username").notNull().unique(),
     name: text("name").notNull(),
     passwordHash: text("password_hash").notNull().default(""),
-})
 
-export type User = typeof users.$inferSelect
+    token: text("token").unique(),
+    tokenExpiry: timestamp("token_expiry"),
+});
 
-export const usersRelations = relations(users, ({many}) => ({
-    blogs: many(blogs)
-}))
+export type NewUser = typeof users.$inferInsert;
+export type User = typeof users.$inferSelect;
 
-export const blogsRelations = relations(blogs, ({one}) => ({
+export const usersRelations = relations(users, ({ many }) => ({
+    blogs: many(blogs),
+}));
+
+export const blogsRelations = relations(blogs, ({ one }) => ({
     user: one(users, {
         fields: [blogs.userId],
-        references: [users.id]
-    })
-}))
+        references: [users.id],
+    }),
+}));

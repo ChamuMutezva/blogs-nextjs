@@ -1,11 +1,8 @@
 import "./globals.css";
-import Link from "next/link";
-import { Rss } from "lucide-react";
 import type { ReactNode } from "react";
 import AuthSessionProvider from "./components/SessionProvider";
 import NavBar from "./components/NavBar";
 import { NotificationProvider } from "./contexts/NotificationContext";
-import Notification from "./components/Notification";
 
 export const metadata = {
     title: "My Blog App",
@@ -26,7 +23,7 @@ export default function RootLayout({
                             {children}
                         </main>
                         <footer className="border-t border-zinc-200 dark:border-zinc-800 py-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
-                            © {new Date().getFullYear()} My Blog App. All rights
+                            © 2025 - {new Date().getFullYear()} My Blog App. All rights
                             reserved.
                         </footer>
                     </NotificationProvider>

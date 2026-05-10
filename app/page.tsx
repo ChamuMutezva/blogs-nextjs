@@ -1,4 +1,4 @@
-import Link from "next/link";
+import NavLink from "./components/NavLink";
 
 export default function Home() {
     return (
@@ -11,12 +11,9 @@ export default function Home() {
                     Discover insights, tutorials, and thought-provoking articles
                     on topics that matter.
                 </p>
-                <Link
-                    href="/blogs"
-                    className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-zinc-900 dark:bg-white dark:text-zinc-900 rounded-lg shadow-sm hover:bg-zinc-800 dark:hover:bg-zinc-100 transition-colors"
-                >
+                <NavLink href="/blogs" variant="tertiary" size="lg">
                     Explore Blogs
-                </Link>
+                </NavLink>
             </div>
         </div>
     );

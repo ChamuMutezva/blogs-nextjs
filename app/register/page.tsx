@@ -19,9 +19,9 @@ export default function RegisterPage() {
     return (
         <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-zinc-50 dark:bg-zinc-950">
             <div className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 sm:p-8 shadow-sm">
-                <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 mb-6 text-center">
+                <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 mb-6 text-center">
                     Create Account
-                </h2>
+                </h1>
 
                 {/* 🚨 General Server Error Banner */}
                 {state?.fieldErrors?._form && (

@@ -41,6 +41,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             },
         }),
     ],
+    callbacks: {
+        // ✅ Ensure session includes user.id for server actions
+        async session({ session, token }) {
+            if (token.sub && session.user) {
+                session.user.id = token.sub; // Critical for server actions
+            }
+            return session;
+        },
+    },
     pages: {
         signIn: "/login",
     },

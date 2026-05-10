@@ -1,7 +1,8 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { blogs, users } from "@/db/schema";
 import bcrypt from "bcryptjs";
+import { generateToken, getTokenExpiry } from "@/lib/token";
 
 // ✅ Return full list of users
 export const getUsers = async () => {
@@ -76,4 +77,66 @@ export const registerUser = async ({
         .returning();
 
     return newUser;
+};
+
+/**
+ * Generate a new token for a user
+ */
+export const generateUserToken = async (
+    userId: number,
+    expiryHours?: number,
+) => {
+    const token = generateToken();
+    const tokenExpiry = getTokenExpiry(expiryHours);
+
+    const [updated] = await db
+        .update(users)
+        .set({ token, tokenExpiry })
+        .where(eq(users.id, userId))
+        .returning();
+
+    return updated;
+};
+
+
+/**
+ * Validate a token and return the user if valid
+ */
+export const validateUserToken = async (token: string) => {
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(and(eq(users.token, token)));
+  
+  if (!user || !user.tokenExpiry) return null;
+  
+  // Check expiry
+  if (new Date() > user.tokenExpiry) {
+    // Optionally clear expired token
+    await db.update(users).set({ token: null, tokenExpiry: null }).where(eq(users.id, user.id));
+    return null;
+  }
+  
+  return user;
+};
+
+/**
+ * Revoke a user's token
+ */
+export const revokeUserToken = async (userId: number) => {
+  await db
+    .update(users)
+    .set({ token: null, tokenExpiry: null })
+    .where(eq(users.id, userId));
+};
+
+/**
+ * Get user by ID with token info (for admin views)
+ */
+export const getUserWithToken = async (userId: number) => {
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, userId));
+  return user;
 };
